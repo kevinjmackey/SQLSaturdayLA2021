@@ -1,0 +1,139 @@
+/* ====================================================================================
+   @!table.name!@ XML Shredder C# code
+   Generated on: @!date!@
+   Generator Version: @!version!@
+  
+   Template Version:  1.0
+   Version 1.0  Initial version of the template to generate the C# code for the CLR XML shredding functions
+   ======================================================================================================================*/
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Data.SqlTypes;
+using Microsoft.SqlServer.Server;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
+
+namespace SQLSaturday
+{
+    public class BaseRecord@!table.name!@
+    {
+<!--(for i,column in enumerate(column_list))-->
+    <!--(if column.datatype.lower().startswith("varchar"))-->
+        public SqlString @!column.name!@;
+    <!--(elif column.datatype.lower().startswith("nvarchar"))-->
+        public SqlString @!column.name!@;
+    <!--(elif column.datatype.lower().startswith("bigint"))-->
+        public SqlInt64 @!column.name!@;
+    <!--(elif column.datatype.lower().startswith("int"))-->
+        public SqlInt32 @!column.name!@;
+    <!--(elif column.datatype.lower().startswith("smallint"))-->
+        public SqlInt16 @!column.name!@;
+    <!--(elif column.datatype.lower().startswith("tinyint"))-->
+        public SqlByte @!column.name!@;
+    <!--(elif column.datatype.lower().startswith("decimal"))-->
+        public SqlDecimal @!column.name!@;
+    <!--(elif column.datatype.lower().startswith("numeric"))-->
+        public SqlDecimal @!column.name!@;
+    <!--(elif column.datatype.lower().startswith("bit"))-->
+        public SqlBoolean @!column.name!@;
+    <!--(else)-->
+        public SqlString @!column.name!@
+    <!--(end)-->
+<!--(end)-->
+    }
+    public class XMLShredderBase@!table.name!@
+    {
+        private static MemoryStream GenerateStreamFromString(string value)
+        {
+            return new MemoryStream(Encoding.Unicode.GetBytes(value ?? ""));
+        }
+        [Microsoft.SqlServer.Server.SqlFunction(
+            Name = "ParseBase@!table.name!@Message",
+            FillRowMethodName = "ReturnResults",
+            TableDefinition = @"
+<!--(for i,column in enumerate(column_list))-->
+            @!column.name!@ <!--(if column.datatype.lower().find("varchar") > 0)-->@!column.datatype.lower()!@(@!column.maximumlength!@)<!--(elif column.datatype.lower()=="decimal")-->@!column.datatype.lower()!@(@!column.decimalprecision!@, @!column.decimalscale!@)<!--(elif column.datatype.lower()=="numeric")-->@!column.datatype.lower()!@(@!column.decimalprecision!@, @!column.decimalscale!@)<!--(elif column.datatype.lower()=="datetime2")-->@!column.datatype.lower()!@(7)<!--(else)-->@!column.datatype.lower()!@<!--(end)--><!--(if len(column_list)>(i+1))-->,<!--(else)-->"<!--(end)-->
+<!--(end)-->
+            )
+        ]
+        public static System.Collections.IEnumerable ParseMessage(string _xmlMessage)
+        {
+            BaseRecord@!table.name!@ baseRecord = new BaseRecord@!table.name!@();
+            using (XmlReader reader = XmlReader.Create(GenerateStreamFromString(_xmlMessage)))
+            {
+                while (reader.Read())
+                {
+                    //Only looking for the start of elements
+                    if (reader.IsStartElement()|| reader.MoveToContent() == XmlNodeType.Element)
+                    {
+                        //Get element name and switch on it
+                        switch (reader.Name)
+                        {
+<!--(for i,column in enumerate(column_list))-->
+                            case "@!column.name!@":
+        <!--(if column.datatype.lower().startswith("varchar"))-->
+                                    baseRecord.@!column.name!@ = reader.ReadString();
+        <!--(elif column.datatype.lower().startswith("nvarchar"))-->
+                                    baseRecord.@!column.name!@ = reader.ReadString();
+        <!--(elif column.datatype.lower().startswith("bigint"))-->
+                                    baseRecord.@!column.name!@ = SqlInt64.Parse(reader.ReadString());
+        <!--(elif column.datatype.lower().startswith("int"))-->
+                                baseRecord.@!column.name!@ = SqlInt32.Parse(reader.ReadString());
+        <!--(elif column.datatype.lower().startswith("smallint"))-->
+                                baseRecord.@!column.name!@ = SqlInt16.Parse(reader.ReadString());
+        <!--(elif column.datatype.lower().startswith("tinyint"))-->
+                                baseRecord.@!column.name!@ = SqlByte.Parse(reader.ReadString());
+        <!--(elif column.datatype.lower().startswith("decimal"))-->
+                                    baseRecord.@!column.name!@ = SqlDecimal.Parse(reader.ReadString());
+        <!--(elif column.datatype.lower().startswith("numeric"))-->
+                                    baseRecord.@!column.name!@ = SqlDecimal.Parse(reader.ReadString());
+        <!--(elif column.datatype.lower().startswith("bit"))-->
+                                    baseRecord.@!column.name!@ = reader.ReadString() == "1";
+        <!--(else)-->
+                                    baseRecord.@!column.name!@ = reader.ReadString();
+        <!--(end)-->
+                                break;
+<!--(end)-->
+                        }
+                    }
+                }
+            }
+            List<BaseRecord@!table.name!@> records = new List<BaseRecord@!table.name!@>();
+            records.Add(baseRecord);
+            return records;
+        }
+        public static void ReturnResults(object xmlResults
+<!--(for i,column in enumerate(column_list))-->
+    <!--(if column.datatype.lower().startswith("varchar"))-->
+            ,out SqlString @!column.name!@
+    <!--(elif column.datatype.lower().startswith("bigint"))-->
+            ,out SqlInt64 @!column.name!@
+    <!--(elif column.datatype.lower().startswith("int"))-->
+            ,out SqlInt32 @!column.name!@
+    <!--(elif column.datatype.lower().startswith("smallint"))-->
+            ,out SqlInt16 @!column.name!@
+    <!--(elif column.datatype.lower().startswith("tinyint"))-->
+            ,out SqlByte @!column.name!@
+    <!--(elif column.datatype.lower().startswith("decimal"))-->
+            ,out SqlDecimal @!column.name!@
+    <!--(elif column.datatype.lower().startswith("numeric"))-->
+            ,out SqlDecimal @!column.name!@
+    <!--(elif column.datatype.lower().startswith("bit"))-->
+            ,out SqlBoolean @!column.name!@
+    <!--(else)-->
+            ,out SqlString @!column.name!@
+    <!--(end)-->
+<!--(end)-->
+        )
+        {
+            BaseRecord@!table.name!@ baseRecord = (BaseRecord@!table.name!@)xmlResults;
+<!--(for i,column in enumerate(column_list))-->
+            @!column.name!@ = baseRecord.@!column.name!@;
+<!--(end)-->
+        }
+    }
+}

@@ -1,0 +1,46 @@
+IF EXISTS (SELECT *
+           FROM [dbo].[sysobjects]
+           WHERE [id] = OBJECT_ID(N'@!table.schema!@.@!table.name!@_XPath')
+           AND OBJECTPROPERTY([id],N'IsProcedure') = 1)
+   DROP PROCEDURE [@!table.schema!@].[@!table.name!@_XPath];
+   GO
+/*  -- ====================================================================================
+    -- @!table.name!@ XPath Stored Procedures ([@!table.schema!@].[@!table.name!@_XPath])
+    -- Generated on: @!date!@
+    -- Generator Version: @!version!@
+    --
+    -- Template Version:  1.0
+    -- Version 1.0  Initial version of the template for the XPath Stored Procedures
+    -- ========================================================================================*/
+
+    CREATE PROCEDURE [@!table.schema!@].[@!table.name!@_XPath]
+    AS
+    BEGIN --Procedure
+        DECLARE @ReceivedMessages TABLE
+        (
+            Payload XML
+        )
+        DECLARE @Messages TABLE
+        (
+<!--(for i, column in enumerate(column_list))-->
+            [@!column.name!@] <!--(if column.datatype.lower().find("varchar") > 0)-->@!column.datatype.lower()!@(@!column.maximumlength!@)<!--(elif column.datatype.lower()=="decimal")-->@!column.datatype.lower()!@(@!column.decimalprecision!@, @!column.decimalscale!@)<!--(elif column.datatype.lower()=="numeric")-->@!column.datatype.lower()!@(@!column.decimalprecision!@, @!column.decimalscale!@)<!--(elif column.datatype.lower()=="datetime2")-->@!column.datatype.lower()!@(7)<!--(else)-->@!column.datatype.lower()!@<!--(end)--><!--(if len(column_list)>(i+1))-->,<!--(end)-->
+<!--(end)-->
+        )
+
+        DELETE FROM @Messages
+
+        INSERT @Messages
+        (
+<!--(for i, column in enumerate(column_list))-->
+            [@!column.name!@]<!--(if len(column_list)>(i+1))-->,<!--(end)-->
+<!--(end)-->
+        )
+        SELECT
+<!--(for i, column in enumerate(column_list))-->
+               [@!column.name!@] = [b].[value]('payload[1]/record[1]/@!column.name!@', '<!--(if column.datatype.lower().find("varchar") > 0)-->@!column.datatype.lower()!@(@!column.maximumlength!@)<!--(elif column.datatype.lower()=="decimal")-->@!column.datatype.lower()!@(@!column.decimalprecision!@, @!column.decimalscale!@)<!--(elif column.datatype.lower()=="numeric")-->@!column.datatype.lower()!@(@!column.decimalprecision!@, @!column.decimalscale!@)<!--(elif column.datatype.lower()=="datetime2")-->@!column.datatype.lower()!@(7)<!--(else)-->@!column.datatype.lower()!@<!--(end)-->') <!--(if len(column_list)>(i+1))-->,<!--(end)-->
+<!--(end)-->
+        FROM    @ReceivedMessages AS [A]
+        CROSS APPLY [payload].[nodes]('//message/dataInput') AS [hdr] ( [b] );
+
+    END --Procedure
+

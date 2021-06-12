@@ -1,0 +1,22 @@
+<root>
+  <table>
+    <columns ColumnID="21" ColumnName="PersonID" TableName="People" dbSchema="Application" IsPK="1" DESC="Numeric ID used for reference to a person within the database" />
+    <columns ColumnID="22" ColumnName="FullName" TableName="People" dbSchema="Application" IsPK="0" DESC="Full name for this person" />
+    <columns ColumnID="23" ColumnName="PreferredName" TableName="People" dbSchema="Application" IsPK="0" DESC="Name that this person prefers to be called" />
+    <columns ColumnID="24" ColumnName="SearchName" TableName="People" dbSchema="Application" IsPK="0" DESC="Name to build full text search on (computed column)" />
+    <columns ColumnID="25" ColumnName="IsPermittedToLogon" TableName="People" dbSchema="Application" IsPK="0" DESC="Is this person permitted to log on?" />
+    <columns ColumnID="26" ColumnName="LogonName" TableName="People" dbSchema="Application" IsPK="0" DESC="Person's system logon name" />
+    <columns ColumnID="27" ColumnName="IsExternalLogonProvider" TableName="People" dbSchema="Application" IsPK="0" DESC="Is logon token provided by an external system?" />
+    <columns ColumnID="28" ColumnName="HashedPassword" TableName="People" dbSchema="Application" IsPK="0" DESC="Hash of password for users without external logon tokens" />
+    <columns ColumnID="29" ColumnName="IsSystemUser" TableName="People" dbSchema="Application" IsPK="0" DESC="Is the currently permitted to make online access?" />
+    <columns ColumnID="30" ColumnName="IsEmployee" TableName="People" dbSchema="Application" IsPK="0" DESC="Is this person an employee?" />
+    <columns ColumnID="31" ColumnName="IsSalesperson" TableName="People" dbSchema="Application" IsPK="0" DESC="Is this person a staff salesperson?" />
+    <columns ColumnID="32" ColumnName="UserPreferences" TableName="People" dbSchema="Application" IsPK="0" DESC="User preferences related to the website (holds JSON data)" />
+    <columns ColumnID="33" ColumnName="PhoneNumber" TableName="People" dbSchema="Application" IsPK="0" DESC="Phone number" />
+    <columns ColumnID="34" ColumnName="FaxNumber" TableName="People" dbSchema="Application" IsPK="0" DESC="Fax number  " />
+    <columns ColumnID="35" ColumnName="EmailAddress" TableName="People" dbSchema="Application" IsPK="0" DESC="Email address for this person" />
+    <columns ColumnID="36" ColumnName="Photo" TableName="People" dbSchema="Application" IsPK="0" DESC="Photo of this person" />
+    <columns ColumnID="37" ColumnName="CustomFields" TableName="People" dbSchema="Application" IsPK="0" DESC="Custom fields for employees and salespeople" />
+    <columns ColumnID="38" ColumnName="OtherLanguages" TableName="People" dbSchema="Application" IsPK="0" DESC="Other languages spoken (computed column from custom fields)" />
+  </table>
+</root>

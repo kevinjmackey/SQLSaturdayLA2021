@@ -1,0 +1,91 @@
+<!--(if xS=="N")-->
+IF EXISTS (SELECT *
+           FROM [dbo].[sysobjects]
+           WHERE [id] = OBJECT_ID(N'@!table.schema!@.@!table.name!@_Select')
+           AND OBJECTPROPERTY([id],N'IsProcedure') = 1)
+   DROP PROCEDURE [@!table.schema!@].[@!table.name!@_Select];
+   GO
+/*  -- ====================================================================================
+    -- @!table.name!@ CRUD Stored Procedures ([@!table.schema!@].[@!table.name!@_Select])
+    -- Generated on: @!date!@
+    -- Generator Version: @!version!@
+    --
+    -- Template Version:  1.0
+    -- Version 1.0  Initial version of the template for CRUD Stored Procedures
+    -- ========================================================================================*/
+
+   CREATE PROCEDURE [@!table.schema!@].[@!table.name!@_Select] (@@!pkcolumn!@ INT = NULL)
+   AS
+   BEGIN --Procedure
+       SELECT
+   <!--(for i, column in enumerate(column_list))-->
+            [@!column.name!@]<!--(if len(column_list)>(i+1))-->,<!--(end)-->
+   <!--(end)-->
+       FROM [@!table.schema!@].[@!table.name!@] AS [T]
+       WHERE [T].[@!pkcolumn!@] = @@!pkcolumn!@
+    END --Procedure
+GO
+<!--(end)-->
+
+<!--(if xI=="N")-->
+IF EXISTS (SELECT *
+           FROM [dbo].[sysobjects]
+           WHERE [id] = OBJECT_ID(N'@!table.schema!@.@!table.name!@_Insert')
+           AND OBJECTPROPERTY([id],N'IsProcedure') = 1)
+   DROP PROCEDURE [@!table.schema!@].[@!table.name!@_Insert];
+   GO
+/*  -- ====================================================================================
+    -- @!table.name!@ CRUD Stored Procedures ([@!table.schema!@].[@!table.name!@_Insert])
+    -- Generated on: @!date!@
+    -- Generator Version: @!version!@
+    --
+    -- Template Version:  1.0
+    -- Version 1.0  Initial version of the template for CRUD Stored Procedures
+    -- ========================================================================================*/
+
+   CREATE PROCEDURE [@!table.schema!@].[@!table.name!@_Insert] (
+    <!--(for i, column in enumerate(column_list))-->
+            @@!column.name!@ <!--(if column.datatype.lower().find("varchar") > 0)-->@!column.datatype.lower()!@(@!column.maximumlength!@)<!--(elif column.datatype.lower()=="decimal")-->@!column.datatype.lower()!@(@!column.decimalprecision!@, @!column.decimalscale!@)<!--(elif column.datatype.lower()=="numeric")-->@!column.datatype.lower()!@(@!column.decimalprecision!@, @!column.decimalscale!@)<!--(elif column.datatype.lower()=="datetime2")-->@!column.datatype.lower()!@(7)<!--(else)-->@!column.datatype.lower()!@<!--(end)--><!--(if len(column_list)>(i+1))-->,<!--(end)-->
+    <!--(end)-->
+   )
+   AS
+   BEGIN --Procedure
+       INSERT [@!table.schema!@].[@!table.name!@]
+       (
+   <!--(for i, column in enumerate(column_list))-->
+            [@!column.name!@]<!--(if len(column_list)>(i+1))-->,<!--(end)-->
+   <!--(end)-->
+        )
+        SELECT 
+   <!--(for i, column in enumerate(column_list))-->
+            @@!column.name!@<!--(if len(column_list)>(i+1))-->,<!--(end)-->
+   <!--(end)-->
+    END --Procedure
+<!--(end)-->
+GO
+
+<!--(if xD=="N")-->
+IF EXISTS (SELECT *
+           FROM [dbo].[sysobjects]
+           WHERE [id] = OBJECT_ID(N'@!table.schema!@.@!table.name!@_Delete')
+           AND OBJECTPROPERTY([id],N'IsProcedure') = 1)
+   DROP PROCEDURE [@!table.schema!@].[@!table.name!@_Delete];
+   GO
+/*  -- ====================================================================================
+    -- @!table.name!@ CRUD Stored Procedures ([@!table.schema!@].[@!table.name!@_Delete])
+    -- Generated on: @!date!@
+    -- Generator Version: @!version!@
+    --
+    -- Template Version:  1.0
+    -- Version 1.0  Initial version of the template for CRUD Stored Procedures
+    -- ========================================================================================*/
+
+   CREATE PROCEDURE [@!table.schema!@].[@!table.name!@_Delete] (@@!pkcolumn!@ INT = NULL)
+   AS
+   BEGIN --Procedure
+       DELETE [@!table.schema!@].[@!table.name!@]
+       WHERE [@!pkcolumn!@] = @@!pkcolumn!@
+    END --Procedure
+<!--(end)-->
+GO
+
