@@ -104,12 +104,12 @@ def ProcessAllTables(_version, _outputFile, _template, _xS, _xI, _xU, _xD):
 
     print("Template file: {}".format(_template))
 
-    if(_template != r"CSharpParser.tmpl"):
+    if(_template.contains("CSharpParser.tmpl")):
         if(os.path.isfile(_outputFile)):
             os.remove(_outputFile)
 
     for table in tables:
-        if(_template == r"CSharpParser.tmpl"):
+        if(_template.contains("CSharpParser.tmpl")):
             _outputFile = "CSharpParser_{}.cs".format(table.name)
             if(os.path.isfile(_outputFile)):
                 os.remove(_outputFile)
